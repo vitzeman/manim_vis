@@ -409,7 +409,9 @@ class NeRF(Scene):
         r1.move_to([-2, 3, 0])
         r2.move_to([1 + 0.75, 3, 0])
         dot = Dot([-5, 3, 0], color=fg_color)
-        self.add(r1, r2, dot)
+        dot_text = MathTex(r"\mathbf{p}", color=fg_color).next_to(dot, LEFT)
+
+        self.add(r1, r2, dot, dot_text)
 
     def show_axis(self):
         # """Show axis with labels"""
@@ -421,10 +423,14 @@ class NeRF(Scene):
 
         x_axis = Line(x_start, x_end, color=fg_color)
         y_axis = Line(y_start, y_end, color=fg_color)
-        y_label = MathTex(r"\sigma (x)", color=fg_color).next_to(y_end, LEFT)
-        x_label = MathTex(r"x", color=fg_color).next_to(x_end, DOWN)
+        y_label = MathTex(r"\sigma (t)", color=fg_color).next_to(y_end, LEFT)
+        x_label = MathTex(r"t", color=fg_color).next_to(x_end, DOWN)
 
-        self.add(x_axis, y_axis, y_label, x_label)
+        Origin_text = MathTex(r"\mathbf{O}", color=fg_color).next_to(
+            [-5, -2, 0], DL, buff=0.1
+        )
+
+        self.add(x_axis, y_axis, y_label, x_label, Origin_text)
 
     def plot_function(self):
         """Plot the function"""
@@ -603,8 +609,6 @@ class NeRF(Scene):
         self.wait(1)
 
         self.move_plot()
-
-        
 
         # self.wait(1)
 
