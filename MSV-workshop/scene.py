@@ -189,7 +189,7 @@ class PinHoleVideo(Scene):
             color=fg_color,
             stroke_width=z_axis.stroke_width,
         )
-        plane_text = MathTex(r"\Pi", color=fg_color).next_to(img_plane, DL, buff=0.05)
+        plane_text = MathTex(r"\pi", color=fg_color).next_to(img_plane, DL, buff=0.05)
         self.play(Create(img_plane), Create(za_add), Create(dashed), Write(plane_text))
         # self.add(za_add, dashed)
         self.wait(1)
@@ -221,7 +221,7 @@ class PinHoleVideo(Scene):
         self.play(Create(xi_axis), Create(yi_axis), Write(xi_text), Write(yi_text))
 
         point = Dot([4, 2.7, 0], color=ray_color)
-        point_text = MathTex(r"\mathbf{X}", color=ray_color).next_to(point, RIGHT)
+        point_text = MathTex(r"\mathbf{B}", color=ray_color).next_to(point, RIGHT)
         s = c1.get_center()
         g = point.get_center()
         point_line = DashedLine(s, g, color=ray_color)
@@ -231,7 +231,7 @@ class PinHoleVideo(Scene):
         inter = s + 5 * d
 
         intersection = Cross(Dot(inter), stroke_color=ray_color, scale_factor=1.5)
-        i_text = MathTex(r"\mathbf{x}", color=ray_color).next_to(
+        i_text = MathTex(r"\mathbf{b}", color=ray_color).next_to(
             intersection, UR, buff=0.1
         )
         self.play(Create(point), Write(point_text))
@@ -259,7 +259,7 @@ class CameraTrinagulation(Scene):
         matrix = [[1, 0], [-1, -1]]
         img_plane_1.apply_matrix(matrix)
         img_plane_1.move_to([-5, 0, 0])
-        plane_1_text = MathTex(r"\Pi_1", color=fg_color).next_to(img_plane_1, LEFT)
+        plane_1_text = MathTex(r"\pi_1", color=fg_color).next_to(img_plane_1, LEFT)
 
         center = img_plane_1.get_center()
         center_circle = Circle(radius=0.05, color=fg_color, fill_opacity=1)
@@ -277,7 +277,7 @@ class CameraTrinagulation(Scene):
         matrix = [[1, 0], [1, 1]]
         img_plane_2.apply_matrix(matrix)
         img_plane_2.move_to([5, 0, 0])
-        plane_2_text = MathTex(r"\Pi_2", color=fg_color).next_to(img_plane_2, RIGHT)
+        plane_2_text = MathTex(r"\pi_2", color=fg_color).next_to(img_plane_2, RIGHT)
 
         center2 = img_plane_2.get_center()
         center_circle2 = Circle(radius=0.1, color=fg_color, fill_opacity=1)
@@ -320,6 +320,19 @@ class CameraTrinagulation(Scene):
             p2_text,
         )
         self.wait()
+        
+        arrow = CurvedArrow(
+            start_point=c1.get_center() + np.array([0.5, -0.5, 0]),
+            end_point=c2.get_center() + np.array([-0.5, -0.5, 0]),
+            angle=TAU / 4,
+            color=CTU_ORANGE,
+        )
+        arrow_text = MathTex(r"\mathbf{R,\,t}", color=CTU_ORANGE).next_to(arrow, DOWN)
+
+        self.play(Create(arrow), Write(arrow_text))
+
+        self.wait(2)
+        
         # self.play(Create(center_circle), Create(center_circle2))
         self.play(Create(line), Create(line2))
         self.play(Create(cross), Create(text))
@@ -335,11 +348,14 @@ class CameraTrinagulation(Scene):
         x_1 = Dot(x_1, color=ray_color)
         x_2 = Dot(x_2, color=ray_color)
 
-        x_1_text = MathTex(r"\mathbf{x_1}", color=ray_color).next_to(x_1, DOWN)
-        x_2_text = MathTex(r"\mathbf{x_2}", color=ray_color).next_to(x_2, DOWN)
+        x_1_text = MathTex(r"\mathbf{b_1}", color=ray_color).next_to(x_1, DOWN)
+        x_2_text = MathTex(r"\mathbf{b_2}", color=ray_color).next_to(x_2, DOWN)
 
         self.play(Create(x_1), Write(x_1_text))
         self.play(Create(x_2), Write(x_2_text))
+
+        
+
 
         x_1_dir = x_1.get_center() - c1.get_center()
         # x_1_dir /= np.linalg.norm(x_1_dir)
@@ -359,7 +375,7 @@ class CameraTrinagulation(Scene):
         )
         X_dot = Dot(X_pt, color=ray_color)
         X_cross = Cross(X_dot, stroke_color=ray_color)
-        X_text = MathTex(r"\mathbf{X}", color=ray_color).next_to(X_dot, DOWN)
+        X_text = MathTex(r"\mathbf{B}", color=ray_color).next_to(X_dot, DOWN)
 
         self.play(Create(x_1_line), Create(x_2_line))
 
@@ -367,17 +383,7 @@ class CameraTrinagulation(Scene):
 
         self.wait(2)
 
-        arrow = CurvedArrow(
-            start_point=c1.get_center() + np.array([0.5, -0.5, 0]),
-            end_point=c2.get_center() + np.array([-0.5, -0.5, 0]),
-            angle=TAU / 4,
-            color=CTU_ORANGE,
-        )
-        arrow_text = MathTex(r"\mathbf{R,\,t}", color=CTU_ORANGE).next_to(arrow, DOWN)
-
-        self.play(Create(arrow), Write(arrow_text))
-
-        self.wait(2)
+        
 
 
 class NeRF(Scene):
