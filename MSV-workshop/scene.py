@@ -336,9 +336,9 @@ class CameraTrinagulation(Scene):
             start_point=c1.get_center() + np.array([0.5, -0.5, 0]),
             end_point=c2.get_center() + np.array([-0.5, -0.5, 0]),
             angle=TAU / 4,
-            color=CTU_ORANGE,
+            color=RICAIP_GOLD,
         )
-        arrow_text = MathTex(r"\mathbf{R,\,t}", color=CTU_ORANGE).next_to(arrow, DOWN)
+        arrow_text = MathTex(r"\mathbf{R,\,t}", color=RICAIP_GOLD).next_to(arrow, DOWN)
 
         self.play(Create(arrow), Write(arrow_text))
 
@@ -369,7 +369,7 @@ class CameraTrinagulation(Scene):
 
         self.play(Create(x_1_box), Write(x_1_text))
         self.play(Create(x_2_box), Write(x_2_text))
-
+ 
         x_1_dir = x_1.get_center() - c1.get_center()
         # x_1_dir /= np.linalg.norm(x_1_dir)
         x_2_dir = x_2.get_center() - c2.get_center()
