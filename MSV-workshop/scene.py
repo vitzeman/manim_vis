@@ -15,6 +15,9 @@ CTU_WINE = "#981F40"
 CTU_PINK = "#F04D98"
 CTU_YELLOW = "#F0AB00"
 
+RICAIP_BLUE = "#213765"
+RICAIP_GOLD = "#db9233"
+
 
 darkmode = True
 if darkmode:
@@ -156,9 +159,15 @@ class PinHoleVideo(Scene):
         )
 
         c1_text = MathTex(r"\mathbf{C}", color=fg_color).next_to(c1, LEFT)
-        ya_text = Text("Y", color=fg_color).next_to(y_axis.end, RIGHT).shift([-4, 0, 0])
-        xa_text = Text("X", color=fg_color).next_to(x_axis.end, UP).shift([-4, 0, 0])
-        za_text = Text("Z", color=fg_color).next_to(z_axis.end, RIGHT).shift([-4, 0, 0])
+        ya_text = (
+            MathTex("y_w", color=fg_color).next_to(y_axis.end, RIGHT).shift([-4, 0, 0])
+        )
+        xa_text = (
+            MathTex("x_w", color=fg_color).next_to(x_axis.end, UP).shift([-4, 0, 0])
+        )
+        za_text = (
+            MathTex("z_w", color=fg_color).next_to(z_axis.end, RIGHT).shift([-4, 0, 0])
+        )
 
         # self.play(Create(x_axis), Create(y_axis), Create(z_axis))
         # self.play(Write(xa_text), Write(ya_text), Write(za_text))
@@ -215,8 +224,8 @@ class PinHoleVideo(Scene):
             max_stroke_width_to_length_ratio=10,
             max_tip_length_to_length_ratio=0.1,
         )
-        xi_text = MathTex("x", color=fg_color).next_to(xi_axis.end, RIGHT, buff=0.1)
-        yi_text = MathTex("y", color=fg_color).next_to(yi_axis.end, RIGHT, buff=0.1)
+        xi_text = MathTex("x_i", color=fg_color).next_to(xi_axis.end, RIGHT, buff=0.1)
+        yi_text = MathTex("y_i", color=fg_color).next_to(yi_axis.end, RIGHT, buff=0.1)
 
         self.play(Create(xi_axis), Create(yi_axis), Write(xi_text), Write(yi_text))
 
@@ -231,6 +240,8 @@ class PinHoleVideo(Scene):
         inter = s + 5 * d
 
         intersection = Cross(Dot(inter), stroke_color=ray_color, scale_factor=1.5)
+        intersection = Square(0.1, color=ray_color).apply_matrix(matrix).move_to(inter)
+
         i_text = MathTex(r"\mathbf{b}", color=ray_color).next_to(
             intersection, UR, buff=0.1
         )
@@ -320,7 +331,7 @@ class CameraTrinagulation(Scene):
             p2_text,
         )
         self.wait()
-        
+
         arrow = CurvedArrow(
             start_point=c1.get_center() + np.array([0.5, -0.5, 0]),
             end_point=c2.get_center() + np.array([-0.5, -0.5, 0]),
@@ -332,7 +343,7 @@ class CameraTrinagulation(Scene):
         self.play(Create(arrow), Write(arrow_text))
 
         self.wait(2)
-        
+
         # self.play(Create(center_circle), Create(center_circle2))
         self.play(Create(line), Create(line2))
         self.play(Create(cross), Create(text))
@@ -348,14 +359,16 @@ class CameraTrinagulation(Scene):
         x_1 = Dot(x_1, color=ray_color)
         x_2 = Dot(x_2, color=ray_color)
 
-        x_1_text = MathTex(r"\mathbf{b_1}", color=ray_color).next_to(x_1, DOWN)
-        x_2_text = MathTex(r"\mathbf{b_2}", color=ray_color).next_to(x_2, DOWN)
+        matrix = [[1, 0], [-1, -1]]
+        x_1_box = Square(0.1, color=ray_color).apply_matrix(matrix).move_to(x_1)
+        matrix = [[1, 0], [1, 1]]
+        x_2_box = Square(0.1, color=ray_color).apply_matrix(matrix).move_to(x_2)
 
-        self.play(Create(x_1), Write(x_1_text))
-        self.play(Create(x_2), Write(x_2_text))
+        x_1_text = MathTex(r"\mathbf{b_1}", color=ray_color).next_to(x_1_box, DOWN)
+        x_2_text = MathTex(r"\mathbf{b_2}", color=ray_color).next_to(x_2_box, DOWN)
 
-        
-
+        self.play(Create(x_1_box), Write(x_1_text))
+        self.play(Create(x_2_box), Write(x_2_text))
 
         x_1_dir = x_1.get_center() - c1.get_center()
         # x_1_dir /= np.linalg.norm(x_1_dir)
@@ -382,8 +395,6 @@ class CameraTrinagulation(Scene):
         self.play(Create(X_cross), Write(X_text))
 
         self.wait(2)
-
-        
 
 
 class NeRF(Scene):
