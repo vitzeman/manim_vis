@@ -426,7 +426,7 @@ class NeRF(Scene):
         r1.move_to([-2, 3, 0])
         r2.move_to([1 + 0.75, 3, 0])
         dot = Dot([-5, 3, 0], color=fg_color)
-        dot_text = MathTex(r"\mathbf{p}", color=fg_color).next_to(dot, LEFT)
+        dot_text = MathTex(r"\mathbf{o}", color=fg_color).next_to(dot, LEFT)
 
         self.add(r1, r2, dot, dot_text)
 
@@ -452,7 +452,7 @@ class NeRF(Scene):
     def plot_function(self):
         """Plot the function"""
         m1 = 2.5
-        m2 = m1 * 0.7
+        m2 = m1 
         mu_1 = -2
         mu_2 = 1
         sigma_1 = 0.5
